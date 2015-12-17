@@ -1,0 +1,26 @@
+<%= will_paginate %>
+	<% @users.each do |user| %>
+		<div class="user row" >
+			<p><%= link_to(user.name, user_path(user)) %></p> 
+			<% status = friendship_status(user) %>
+			<% if status == :not_friend %> 
+				<%= render 'users/shared/friend_request', user: user %>
+			<% elsif status == :awaiting%>
+				<div class="awaiting">
+					<p>Awaiting: 
+						<%= render 'layouts/confirm_request', friendship: current_user.find_friendship(user) %>
+						<%= render 'layouts/decline_request', friendship: current_user.find_friendship(user) %>	
+					</p>
+				</div>
+			<% elsif status == :requested%>
+				<div class="requested">
+					<p >Requested</p>
+				</div>
+			<% elsif status == :friend%>
+				<div class="friends">
+					<p>Currently Friends</p>
+				</div>
+			<% end %>
+		</div>	
+	<%end %>
+<%= will_paginate %>

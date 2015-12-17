@@ -1,0 +1,25 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+ 	<div class="container">
+ 		<%= link_to "Facebook_Cl0ne", root_path, id: "home"%>
+ 		<nav>
+ 			<ul class="nav navbar-right navbar-nav">
+ 				<% if user_signed_in? %>
+	 				<li><%= link_to "Home", root_path %></li>
+	 				<li><%= link_to "Friends", friends_path %></li>
+	 				<% if current_user.friend_requests.empty? %>
+		 				<li><%= link_to "Friend Requests", friend_requests_path	 %></li> 
+		 			<% else %>
+		 				<li><%= link_to "Friend Requests (#{current_user.friend_requests.length})", friend_requests_path%></li>
+		 			<% end %>
+	 				<li><%= link_to "Possble Friends", users_path %></li>
+	 				<li><%= link_to "Create Post", new_user_post_path(current_user) %></li>	 				
+	 				<li><%= link_to "Profile", user_path(current_user)%></li>
+	 				<li><%= link_to "Logout", logout_path%></li>
+	 			<% else %>
+	 				<li><%= link_to "Login", login_path %></li>
+	 				<li><%= link_to "Register", new_user_registration_path %></li>
+	 			<% end %>
+ 			</ul>
+ 		</nav>
+ 	</div>
+</header>

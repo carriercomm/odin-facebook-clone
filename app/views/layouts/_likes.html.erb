@@ -1,0 +1,9 @@
+	<%= "#{ pluralize(object.likes.count, "Like")}" %>
+
+	<% like = object.likes.find { |like| like.user == current_user }%>
+	<%if like %>	
+		<%= link_to "Unlike", like_path(like), method: :delete %>
+	<% else %>
+	<%= link_to "Like", {controller: "likes", action: "create", 
+		like: {user_id: current_user, likeable_id: object, likeable_type: object.class.to_s}}, method: :post %>
+	<% end %>

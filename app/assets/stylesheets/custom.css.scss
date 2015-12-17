@@ -1,0 +1,69 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+/* Mix-ins and Variables   */
+
+$bright-blue:rgb(68, 211, 221);
+$light-blue:rgb(189, 243, 249);
+$light-red:rgb(255, 51, 51);
+@mixin anchor_color {
+	color: $light-red;	
+
+}
+
+@mixin box_sizing {
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
+}
+
+body {
+	padding-top:50px;
+}
+
+a:hover {
+	text-decoration:none;
+	color: $bright-blue;
+}
+a {
+	@include anchor_color;
+}
+
+
+#home {
+	text-transform:uppercase;
+	font-weight:700;
+	font-size:1.5em;
+	float:left;
+	padding-top:10px;
+	color:$bright-blue;
+	&:hover{
+	}
+}
+
+.navbar {
+	min-height:40px;
+	border-color:$bright-blue;
+	background-color:white;
+	border-width: 0 0 3px 0;
+}
+
+footer {
+	border-color:$bright-blue;
+    border-style: solid;
+	background-color:white;
+	border-width: 3px 0 0 0;
+	min-height:40px;
+
+}
+
+.navbar-inverse .navbar-nav > li,.navbar-inverse .navbar-nav > li > a {
+	@include anchor_color;
+}
+.navbar-inverse .navbar-nav > li > a:hover {
+	color: $bright-blue;
+}
+
+/* Basic Layout */
+
+

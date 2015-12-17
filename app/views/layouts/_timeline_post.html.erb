@@ -1,0 +1,15 @@
+<div class="row timeline-post">
+<h6><%= gravatar_for(post.user, size: 15) %>
+<%= link_to(post.user.name.humanize, user_path(post.user)) %></h6>
+	<div class="post-body">
+		<%= post.body %>
+	</div>
+ 	<%= render 'layouts/likes', object: post %>
+ 	<div class="comments-info">
+		<%= post.comments.count == 1 ? "1 Comment" : "#{post.comments.count} Comments"%>
+		<%= link_to "Comment", user_post_path(post.user, post) %>
+	</div>
+	<p class="view-post">
+		<%= link_to "View Post", user_post_path(post.user, post) %>
+	</p>
+</div>

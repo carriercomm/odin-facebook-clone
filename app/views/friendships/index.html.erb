@@ -1,0 +1,13 @@
+<div class="friends row">
+	<% if !@friends.empty?%>
+		<h1>Your Friends:</h1>
+	<% else %>
+		<h1>You have no friends! </h1>
+	<% end %>
+	<% @friends.each do |friend|%>
+		<div class="row">
+			<p><%= link_to friend.name, user_path(friend) %></p>
+			<%= render 'layouts/defriend', friend: friend,  friendship: friend.find_friendship(current_user.id) %>
+		</div>
+	<% end %>
+</div>

@@ -1,0 +1,43 @@
+<h2><%= gravatar_for(@user, size: 35) %>
+<%= @user.name.humanize %></h2>
+<h3>Post:</h3>
+<p class="post-body"><%= @post.body %></p>
+
+<div class="row likes">	
+ 	<%= render 'layouts/likes', object: @post %>
+
+
+</div>
+<div class="row comments">
+	<% @post.comments.each do |comment| %>
+		<div class="row comment">
+
+			<p class="comment name"><%= gravatar_for(@user, size: 20) %><%= comment.user.name %></p>
+			<p class="comment body"><%= comment.body%></p>
+			<% if comment.user == current_user %>
+				<%= link_to "Edit Comment", edit_comment_path(comment) %>
+				 | 
+				<%= link_to "Delete Comment", comment_path(comment), method: :delete %>
+			<% end %>
+			<div class="comment likes">
+				<%= render 'layouts/likes', object: comment%>
+			</div>
+		</div>
+	<% end %>
+	<div class="new-comment">
+		<%= form_for @comment do |f|%>
+			<%= f.text_area :body %>
+			<br>
+   			<%= f.hidden_field :post_id %>
+			<%= f.hidden_field :user_id %>
+			<%= f.submit "Post Comment", class: "btn"%>
+		<% end %>
+	</div>
+</div>
+<%if @user == current_user %>
+	<div class="post-edit-path">
+		<%= link_to "Edit", edit_post_path(@post) %>
+	</div>
+	<%= button_to "Delete Post", user_post_path(@user, @post), data: { confirm: "Are you sure?" }, method: :delete %>
+
+<% end %>

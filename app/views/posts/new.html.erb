@@ -1,0 +1,6 @@
+<h1>Create Post:</h1>
+<%= form_for(@post) do |f| %>
+	<%= f.label :body %>
+	<%= f.text_area :body %>
+	<%= f.submit "Create Post", class:"btn btn-primary"%>
+<% end %>

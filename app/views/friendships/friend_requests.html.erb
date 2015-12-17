@@ -1,0 +1,11 @@
+<h1>Friend Requests</h1>
+
+<% if !@friend_requests.empty? %>
+	<% @friend_requests.each do |request|%>
+		<p>	<%= request.user.name %> </p>
+		<%= render 'layouts/confirm_request', friendship: request %>
+		<%= render 'layouts/decline_request', friendship: request %>
+	<% end %> 
+<% else %>
+	<p>No Friend Requests to speak of!</p>
+<% end %>
