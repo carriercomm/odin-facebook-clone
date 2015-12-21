@@ -17,9 +17,12 @@
 	</div>
 <% elsif status == :friend%>
 			<%= render 'layouts/defriend', friend: @user,  friendship: @user.find_friendship(current_user.id) %>
+
+<% elsif status == :self%>
+	<%= link_to "Edit Profile", settings_path %>
 <% end %>
 
-<% if !@user.bio.nil?%>
+<% if !@user.bio.nil? && !@user.bio.description.nil?%>
 	
 	<p class="user-bio"><%= @user.bio.description %></p>
 

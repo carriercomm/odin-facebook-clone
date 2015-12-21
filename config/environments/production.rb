@@ -53,11 +53,20 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   config.log_level = :debug
+  config.paperclip_defaults = {
+        :storage => :fog,
+        :fog_credentials => {
+        :provider => "AWS",
+        :aws_access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+        :aws_secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+      },
+      :fog_directory => ENV["S3_BUCKET_NAME"]
+    }
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]

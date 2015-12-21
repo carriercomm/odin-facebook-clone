@@ -19,6 +19,11 @@ describe 'User pages' do
 			end
 		end
 
+		it "shows edit link if it is your profile" do
+			visit user_path @user
+			expect(page).to have_link("Edit Profile", settings_path)
+		end
+
 		it "displays unfriend button if visiting friend" do 
 			friend = @user.friends[0]
 			visit user_path friend
