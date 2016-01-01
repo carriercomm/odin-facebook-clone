@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+  before_filter :configure_permitted_parameters
 
  def create
     build_resource(sign_up_params)
@@ -21,10 +22,12 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
 
-
-    def sign_up_params
-      allow = [:email, :name, :password, :password_confirmation, :provider, :uid]
-      params.require(resource_name).permit(allow)
-    end
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:account_update).push(:name, :profile_picture)
+  end
+    # def sign_up_params
+    #   allow = [:email, :name, :password, :password_confirmation, :provider, :uid, :profile_picture]
+    #   params.require(resource_name).permit(allow)
+    # end
 
 end

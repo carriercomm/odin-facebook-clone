@@ -1,6 +1,5 @@
-<div class="gravatar"><%= gravatar_for(@user, size: 50) %></div>
+<div class="profile-picture"><%= image_tag @user.profile_picture.url(:medium) %></div>
 <h2 class="user-name"><%= @user.name %></h2>
-
 <% status = friendship_status(@user) %>
 <% if status == :not_friend %> 
 	<%= render 'users/shared/friend_request', user: @user %>

@@ -14,8 +14,8 @@ describe 'User pages' do
 			size = 50
 			expect(page).to have_content(@user.name)
 			expect(page).to have_selector('.user-bio')
-			expect(page).to have_selector('.gravatar') do |div|
-				expect(div).to have_selector("img", :src => "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}")
+			expect(page).to have_selector('.profile-picture') do |div|
+				expect(div).to have_selector("img")
 			end
 		end
 

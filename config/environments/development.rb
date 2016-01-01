@@ -30,10 +30,10 @@ Rails.application.configure do
         :storage => :fog,
         :fog_credentials => {
         :provider => "AWS",
-        :aws_access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-        :aws_secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+        :aws_access_key_id => ENV['S3_ACCESS_KEY'],
+        :aws_secret_access_key => ENV['S3_SECRET_KEY']
       },
-      :fog_directory => ENV["S3_BUCKET_NAME"]
+      :fog_directory => ENV["S3_BUCKET"]
     }
   
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
