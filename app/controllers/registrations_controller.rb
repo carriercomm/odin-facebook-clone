@@ -15,7 +15,7 @@ class RegistrationsController < Devise::RegistrationsController
         respond_with resource, :location => after_sign_up_path_for(resource)
       end
     else
-      clean_up_passwords
+      clean_up_passwords resource
       respond_with resource
     end
   end  
@@ -23,11 +23,11 @@ class RegistrationsController < Devise::RegistrationsController
 
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:account_update).push(:name, :profile_picture)
+    devise_parameter_sanitizer.for(:account_update).push(:name, :profile_picture, :email, :bio_attributes =>[:description, :id])
   end
-    # def sign_up_params
-    #   allow = [:email, :name, :password, :password_confirmation, :provider, :uid, :profile_picture]
-    #   params.require(resource_name).permit(allow)
-    # end
+  def sign_up_params
+    allow = [:email, :name, :password, :password_confirmation, :provider, :uid, :profile_picture, :bio_attributes =>[:description, :id]]
+    params.require(resource_name).permit(allow)
+  end
 
 end
