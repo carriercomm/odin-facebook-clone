@@ -1,8 +1,14 @@
 <div class="row timeline-post">
-<h6><%= gravatar_for(post.user, size: 15) %>
+
+<h6><span class="profile-picture"><%= image_tag post.user.profile_picture.url(:thumb) %></span>
+
 <%= link_to(post.user.name.humanize, user_path(post.user)) %></h6>
 	<div class="post-body">
 		<%= post.body %>
+		<% if post.picture_file_name %>
+			<%= image_tag(post.picture.url(:thumb))%>
+		<% end %>
+
 	</div>
  	<%= render 'layouts/likes', object: post %>
  	<div class="comments-info">

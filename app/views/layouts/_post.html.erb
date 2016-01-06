@@ -1,3 +1,6 @@
 <hr>
 <%= post.body %>
+<% if post.picture_file_name %>
+	<%= image_tag(post.picture.url(:thumb))%>
+<% end %>
 <p><%= link_to("View Post", user_post_path(post.user, post)) %></p>

@@ -7,6 +7,7 @@ FactoryGirl.define do
   factory :post do
     body Faker::Lorem::paragraph
     user
+    # picture { File.open(Rails.root.join('spec', 'support', 'test.jpg')) }
 
     factory :post_like do
       after(:create) do |post, evaluator| 
@@ -21,6 +22,13 @@ FactoryGirl.define do
         create(:like, likeable_id: post.id, likeable_type: "Post", user_id: user.id)
         create(:comment, post_id: post.id, user_id: user.id)
       end     
+    end
+
+    factory :post_with_picture do
+      #after(:new) do |post, evaluator| 
+        picture { File.open(Rails.root.join('spec', 'support', 'test.jpg')) }
+      #end
+
     end
 
   end

@@ -1,21 +1,32 @@
 require 'rails_helper'
 
 describe 'Post pages' do
+	before :each do
+		@user = FactoryGirl.create(:user_with_friends_requests_requested)
+		login_as_user @user
+	end
+
+	context 'edit' do
+		it 'shows fields correctly filled in' do
+			post = @user.posts[0]
+			visit edit_user_post_path @user, post
+			expect(page).to have_selector("textarea", text: post.body)
+		end		
+
+		it 'shows upload option' do
+			post = @user.posts[0]
+			visit edit_user_post_path @user, post
+			expect(page).to have_selector("input[type=file]")
+		end		
+
+	end
 
 	context 'show' do
-		before :each do
-			@user = FactoryGirl.create(:user_with_friends_requests_requested)
-			login_as_user @user
-		end
+
 
 		context 'logged in and friends' do
 
-			it 'renders edit with fields correctly filled in' do
-				post = @user.posts[0]
-				visit edit_user_post_path @user, post
-				expect(page).to have_selector("textarea", text: post.body)
 
-			end
 
 			context 'users own post' do	
 				it 'shows name and body' do
@@ -34,6 +45,13 @@ describe 'Post pages' do
 					visit user_post_path @user, post 
 					expect(page).to have_link("Edit", edit_post_path(post))
 				end
+
+				it "shows picture if it exists" do
+					post = FactoryGirl.create(:post_with_picture)
+					visit user_post_path @user, post 
+					expect(page).to have_css("img[@src*='#{post.picture_file_name}']")
+				end
+
 				context 'post\'s likes' do
 					it 'shows like link if unliked' do
 						visit user_post_path @user, @user.posts[0]
@@ -56,6 +74,7 @@ describe 'Post pages' do
 				end
 
 				#list of likers in hover
+
 				context "post's comments" do
 					before :each do
 						@post = @user.posts[0]

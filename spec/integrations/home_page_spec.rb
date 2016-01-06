@@ -66,6 +66,13 @@ describe 'Home Page' do
 			end
 		end
 
+		it "shows post images" do 
+			post = FactoryGirl.create(:post_with_picture, user_id: @user.id)
+			visit root_path
+			expect(page).to have_css("img[src*='#{post.picture.url(:thumb)}']")
+
+		end
+
 		it "shows link to view post" do
 			posts = @user.posts
 			posts.each do |post|
@@ -73,11 +80,9 @@ describe 'Home Page' do
 			end			
 		end
 
-		it "contains user's name and gravatar" do
-			size = 15
-			gravatar_id = Digest::MD5::hexdigest(@user.email.downcase)
+		it "contains user's name and profile picture" do
 			expect(page).to have_link(@user.name, user_path(@user))
-			expect(page).to have_css("img[src*='https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}']")				
+			expect(page).to have_css("img[src*='#{@user.profile_picture.url(:thumb)}']")				
 		end
 
 		it "contains number of likes and links to like" do

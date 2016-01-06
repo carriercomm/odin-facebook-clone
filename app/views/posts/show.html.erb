@@ -1,7 +1,12 @@
-<h2><%= gravatar_for(@user, size: 35) %>
-<%= @user.name.humanize %></h2>
+<div class="profile-picture"><%= image_tag @user.profile_picture.url(:thumb) %></div>
+<h2><%= @user.name.humanize %></h2>
 <h3>Post:</h3>
-<p class="post-body"><%= @post.body %></p>
+<p class="post-body"><%= @post.body %>
+	<% if @post.picture_file_name %>
+		<%= image_tag(@post.picture.url(:medium))%>
+	<% end %>
+
+</p>
 
 <div class="row likes">	
  	<%= render 'layouts/likes', object: @post %>

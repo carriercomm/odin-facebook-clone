@@ -1,21 +1,18 @@
 require 'rails_helper'
 
 describe Post do 
+	include Paperclip::Shoulda::Matchers
 
-	let(:user) do
-		user = instance_double('User')
-		expect(user).to receive(:id).and_return(1)
-		user
-	end
+	let(:user) { FactoryGirl.create(:user) }
 
 	let(:body_copy) {"Some text goes here."}
 
 	let(:valid_post) do
-		described_class.create!(body: body_copy , user_id: user.id)
+		described_class.new(body: body_copy , user_id: user.id)
 	end
 
 	it 'creates a post' do
-		expect{valid_post}.to change { described_class.all.count }.by(1)	
+		expect{valid_post.save}.to change { described_class.all.count }.by(1)	
 	end
 
 	it 'will not allow missing user' do
@@ -35,7 +32,17 @@ describe Post do
 	it 'has body text' do
 		expect(valid_post.body).to eq(body_copy)
 	end
+	
+	it { expect(valid_post).to_not validate_attachment_presence :picture }
+	it { expect(valid_post).to validate_attachment_content_type(:picture).allowing(
+	  'image/png', 'image/jpg', 'image/jpeg', 'image/gif'
+	).rejecting(
+	  'text/plain', 'text/html', 'application/pdf'
+	)
+	}
+	it { expect(valid_post).to validate_attachment_size(:picture).less_than(1.megabytes) }
 
 end
 
 
+ 

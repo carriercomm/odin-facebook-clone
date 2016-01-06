@@ -8,17 +8,20 @@ describe 'User pages' do
 			login_as_user(@user)
 		end
 
-		it 'should show your name, gravatar and description' do
+		it 'should show your name, profile picture and description' do
 			visit user_path @user
-			gravatar_id = Digest::MD5::hexdigest(@user.email.downcase)
-			size = 50
 			expect(page).to have_content(@user.name)
 			expect(page).to have_selector('.user-bio')
 			expect(page).to have_selector('.profile-picture') do |div|
 				expect(div).to have_selector("img")
 			end
 		end
+		it "shows post images" do 
+			post = FactoryGirl.create(:post_with_picture, user_id: @user.id)
+			visit user_path(@user)
+			expect(page).to have_css("img[src*='#{post.picture.url(:thumb)}']")
 
+		end
 		it "shows edit link if it is your profile" do
 			visit user_path @user
 			expect(page).to have_link("Edit Profile", settings_path)
