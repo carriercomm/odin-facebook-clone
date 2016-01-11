@@ -8,7 +8,11 @@ require 'rspec/rails'
 require 'devise'
 require 'support/shared_functions.rb'
 include Warden::Test::Helpers
+include ActionDispatch::TestProcess
 Warden.test_mode!
+
+
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -54,7 +58,12 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.include Devise::TestHelpers, :type => :controller
   config.include ControllerHelpers, :type => :controller
-
+  config.after(:all) do
+    if Rails.env.test?
+      test_uploads = Dir["#{Rails.root}/spec/test_uploads"]
+      FileUtils.rm_rf(test_uploads)
+    end
+  end
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.

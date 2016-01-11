@@ -39,7 +39,6 @@ class User < ActiveRecord::Base
 
   def find_friendship(friend_id)
     friendship = Friendship.where("(user_id = ? AND friend_id = ?) OR (friend_id = ? AND user_id = ?)", self.id, friend_id, self.id, friend_id).take
-
   end
 
   def self.from_omniauth(auth)

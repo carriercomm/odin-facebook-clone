@@ -10,4 +10,7 @@ class Post < ActiveRecord::Base
 	validates_attachment :picture, content_type:  { content_type: /\Aimage\/.*\Z/ },
 													size: { in: 0..1.megabytes }
 
+
+												
+
 end

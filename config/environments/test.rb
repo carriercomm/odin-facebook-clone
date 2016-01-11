@@ -23,7 +23,10 @@ Rails.application.configure do
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
+  config.paperclip_defaults = {
+    path: ':rails_root/spec/test_uploads/:class/:id/:attachment/:filename',
+    url: ':rails_root/spec/test_uploads/:class/:id/:attachment/:filename'
+  }
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
