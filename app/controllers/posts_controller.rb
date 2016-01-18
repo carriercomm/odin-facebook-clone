@@ -20,7 +20,7 @@ class PostsController < ApplicationController
 			redirect_to user_post_path(@post.user, @post)
 
 		else
-			flash[:notice] = "Please correct errors."
+			flash[:warning] = "Please correct errors."
 			render 'new'
 		end
 	end

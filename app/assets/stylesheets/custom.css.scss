@@ -17,8 +17,19 @@ $light-red:rgb(255, 51, 51);
 	box-sizing:border-box;
 }
 
+/* Basic Layout */
+
 body {
 	padding-top:50px;
+}
+
+.profile-picture {
+    padding-right: 10px;
+}
+
+.hr-thin {
+	margin-top:5px;
+	margin-bottom:5px;
 }
 
 a:hover {
@@ -29,16 +40,24 @@ a {
 	@include anchor_color;
 }
 
-
+#menu {
+	padding: 0 20px;
+}
 #home {
 	text-transform:uppercase;
 	font-weight:700;
 	font-size:1.5em;
 	float:left;
-	padding-top:10px;
 	color:$bright-blue;
 	&:hover{
 	}
+}
+#logo-intro {
+	text-transform: uppercase;
+    font-size: 8px;
+    padding: 0;
+    margin: 5px 0 -5px 0;
+    color: $bright-blue
 }
 
 .navbar {
@@ -57,6 +76,10 @@ footer {
 
 }
 
+.comments .comment {
+	padding-top: 5px;
+}
+
 .navbar-inverse .navbar-nav > li,.navbar-inverse .navbar-nav > li > a {
 	@include anchor_color;
 }
@@ -64,6 +87,9 @@ footer {
 	color: $bright-blue;
 }
 
-/* Basic Layout */
-
+.likes-summary {
+	color:$light-red;
+	cursor: pointer;
+	white-space: nowrap;
+}
 

@@ -1,38 +1,42 @@
-<div class="profile-picture"><%= image_tag @user.profile_picture.url(:medium) %></div>
-<h2 class="user-name"><%= @user.name %></h2>
-<% status = friendship_status(@user) %>
-<% if status == :not_friend %> 
-	<%= render 'users/shared/friend_request', user: @user %>
-<% elsif status == :awaiting%>
-	<div class="awaiting">
-		<p>
-			<%= render 'layouts/confirm_request', friendship: current_user.find_friendship(@user) %>
-			<%= render 'layouts/decline_request', friendship: current_user.find_friendship(@user) %>	
-		</p>
+<div class="row user-profile">
+	<div class="profile-picture col-md-4"><h2><%= image_tag @user.profile_picture.url(:medium), class: "img-responsive thumbnail" %></h2></div>
+	<div class="user-info col-md-8">
+		<h2 class="user-name"><%= @user.name %></h2>
+		<% status = friendship_status(@user) %>
+		<% if status == :not_friend %> 
+			<%= render 'users/shared/friend_request', user: @user %>
+		<% elsif status == :awaiting%>
+			<div class="awaiting">
+				<p>
+					<%= render 'layouts/confirm_request', friendship: current_user.find_friendship(@user) %>
+					<%= render 'layouts/decline_request', friendship: current_user.find_friendship(@user) %>	
+				</p>
+			</div>
+		<% elsif status == :requested%>
+			<div class="requested">
+				<p >Friend Request Sent</p>
+			</div>
+		<% elsif status == :friend%>
+					<%= render 'layouts/defriend', friend: @user,  friendship: @user.find_friendship(current_user.id) %>
+
+		<% elsif status == :self%>
+			<%= link_to "Edit Profile", settings_path %>
+		<% end %>
+
+		<% if !@user.bio.nil? && !@user.bio.description.nil?%>
+			<div class="user-bio well row">
+				<h5>About <%= @user.name %>:</h5>
+				<p><%= @user.bio.description %></p>
+			</div>
+		<%end%>
 	</div>
-<% elsif status == :requested%>
-	<div class="requested">
-		<p >Friend Request Sent</p>
-	</div>
-<% elsif status == :friend%>
-			<%= render 'layouts/defriend', friend: @user,  friendship: @user.find_friendship(current_user.id) %>
-
-<% elsif status == :self%>
-	<%= link_to "Edit Profile", settings_path %>
-<% end %>
-
-<% if !@user.bio.nil? && !@user.bio.description.nil?%>
-	
-	<p class="user-bio"><%= @user.bio.description %></p>
-
-<%end%>
-
+</div>
 <hr>
 <%if !@user.posts.empty? and (friendship_status(@user) == :self or friendship_status(@user) == :friend)%>
 <div class="row user-posts">
 	<h3><%= @user.name %>'s Posts</h3>
 	<% @user.posts.each do |post| %>
-		<%= render 'layouts/post', post: post %>
+		<%= render 'layouts/timeline_post', post: post %>
 	<% end %>
 	
 </div>	

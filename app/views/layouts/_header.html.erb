@@ -1,25 +1,34 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
- 	<div class="container">
- 		<%= link_to "Facebook_Cl0ne", root_path, id: "home"%>
- 		<nav>
- 			<ul class="nav navbar-right navbar-nav">
- 				<% if user_signed_in? %>
-	 				<li><%= link_to "Home", root_path %></li>
-	 				<li><%= link_to "Friends", friends_path %></li>
-	 				<% if current_user.friend_requests.empty? %>
-		 				<li><%= link_to "Friend Requests", friend_requests_path	 %></li> 
-		 			<% else %>
-		 				<li><%= link_to "Friend Requests (#{current_user.friend_requests.length})", friend_requests_path%></li>
-		 			<% end %>
-	 				<li><%= link_to "Possble Friends", users_path %></li>
-	 				<li><%= link_to "Create Post", new_user_post_path(current_user) %></li>	 				
-	 				<li><%= link_to "Profile", user_path(current_user)%></li>
-	 				<li><%= link_to "Logout", logout_path%></li>
-	 			<% else %>
-	 				<li><%= link_to "Login", login_path %></li>
-	 				<li><%= link_to "Register", new_user_registration_path %></li>
-	 			<% end %>
- 			</ul>
- 		</nav>
- 	</div>
+<header class="container">
+	<div id="menu" class="navbar navbar-default navbar-fixed-top">
+
+         <div class="navbar-header">
+          <button class="btn btn-success navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="glyphicon glyphicon-chevron-down"></span>
+
+          </button>
+          <div id="logo">
+          		<p id="logo-intro">This is totally</p>
+        		<%= link_to "Facebook", root_path, id: "home"%>
+        	</div>
+        </div>	
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+
+			<% if user_signed_in? %>
+				<li class="nav <%= include_active(root_path) %>"><%= link_to "Home", root_path %></li>
+				<li class="nav <%= include_active(friends_path) %>"><%= link_to "Friends", friends_path %></li>
+ 				<li class="nav <%= include_active(friend_requests_path) %>">
+ 				<%= link_to "Friend Requests 
+ 				#{!current_user.friend_requests.empty? ? '(' + current_user.friend_requests.length.to_s + ')' : ''}", friend_requests_path%></li>
+				<li class="nav <%= include_active(users_path) %>"><%= link_to "Possble Friends", users_path %></li>
+				<li class="nav <%= include_active(new_user_post_path(current_user)) %>"><%= link_to "Create Post", new_user_post_path(current_user) %></li>	 				
+				<li class="nav <%= include_active(user_path(current_user)) %>"><%= link_to "Profile", user_path(current_user)%></li>
+				<li class="nav"><%= link_to "Logout", logout_path%></li>
+			<% else %>
+				<li class="nav <%= include_active(login_path) %>"><%= link_to "Login", login_path %></li>
+				<li class="nav <%= include_active(new_user_registration_path) %>"><%= link_to "Register", new_user_registration_path %></li>
+			<% end %>
+		</ul>
+		</div>
+	</div>
 </header>

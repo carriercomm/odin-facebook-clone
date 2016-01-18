@@ -36,14 +36,14 @@ describe 'Post pages' do
 				end
 				it 'shows delete and edit link' do
 					visit user_post_path @user, @user.posts[0]
-					expect(page).to have_selector("input[type=submit][value='Delete Post']")
+					expect(page).to have_link("Delete Post", user_post_path(@user, @user.posts[0]))
 				end
 				
 
 				it 'shows edit link' do
 					post = @user.posts[0]
 					visit user_post_path @user, post 
-					expect(page).to have_link("Edit", edit_post_path(post))
+					expect(page).to have_link("Edit Post", edit_post_path(post))
 				end
 
 				it "shows picture if it exists" do

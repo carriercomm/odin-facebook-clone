@@ -1,48 +1,66 @@
-<div class="profile-picture"><%= image_tag @user.profile_picture.url(:thumb) %></div>
-<h2><%= @user.name.humanize %></h2>
-<h3>Post:</h3>
-<p class="post-body"><%= @post.body %>
-	<% if @post.picture_file_name %>
-		<%= image_tag(@post.picture.url(:medium))%>
-	<% end %>
+<div class="row timeline-post panel panel-default">
 
-</p>
+	<div class="col-sm-12 panel-heading">
+		<%if @user == current_user %>
+			<div class="pull-right">
+			<span class="btn btn-group btn-group-sm">
+				<%= link_to "Edit Post", edit_post_path(@post), class: "btn btn-info" %>
+				<%= link_to "Delete Post", user_post_path(@user, @post), class: "btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
+			</span>
+			</div>
 
-<div class="row likes">	
- 	<%= render 'layouts/likes', object: @post %>
+		<% end %>
+
+		<span class="profile-picture pull-left"><%= image_tag @post.user.profile_picture.url(:thumb), class: "img-responsive thumbnail" %></span>
+		<h4><%= link_to(@post.user.name.humanize, user_path(@post.user)) %></h4>
+		<p class="text-muted"><%= time_ago_in_words(@post.created_at) %> ago</p>
 
 
-</div>
-<div class="row comments">
-	<% @post.comments.each do |comment| %>
-		<div class="row comment">
+	</div>
 
-			<p class="comment name"><%= gravatar_for(@user, size: 20) %><%= comment.user.name %></p>
-			<p class="comment body"><%= comment.body%></p>
-			<% if comment.user == current_user %>
-				<%= link_to "Edit Comment", edit_comment_path(comment) %>
-				 | 
-				<%= link_to "Delete Comment", comment_path(comment), method: :delete %>
+	<div class="post-body panel-body">
+		<%= @post.body %>
+		<% if @post.picture_file_name %>
+			<%= image_tag(@post.picture.url(:thumb), class: "img-responsive")%>
+		<% end %>
+
+	</div>
+	<div class="post-body panel-footer">
+
+		<div class="likes">	
+		 	<%= render 'layouts/likes', object: @post %>
+		</div>
+		<hr class="hr-thin">
+		<div class="comments">
+			<% @post.comments.each do |comment| %>
+				<div class="comment">
+					<div class="col-sm-12">
+						<div class="profile-picture pull-left"><%= image_tag comment.user.profile_picture.url(:thumb), class: "img-responsive thumbnail" %></div>
+						<h4><%= link_to(comment.user.name.humanize, user_path(comment.user)) %></h4>
+						<p class="text-muted"><%= time_ago_in_words(comment.created_at) %> ago</p>
+
+					</div>
+					<p class="comment body"><%= comment.body%></p>
+					<% if comment.user == current_user %>
+						<%= link_to "Edit Comment", edit_comment_path(comment) %>
+						 | 
+						<%= link_to "Delete Comment", comment_path(comment), method: :delete %>
+					<% end %>
+					<div class="comment likes">
+						<%= render 'layouts/likes', object: comment%>
+					</div>
+				</div>
 			<% end %>
-			<div class="comment likes">
-				<%= render 'layouts/likes', object: comment%>
+			<div class="new-comment">
+				<%= form_for @comment do |f|%>
+					<h5>Post a new comment:</h5>
+					<%= f.text_area :body, class: "form-control", placeholder: "Leonard likes this"%>
+					<br>
+		   			<%= f.hidden_field :post_id %>
+					<%= f.hidden_field :user_id %>
+					<%= f.submit "Post Comment", class: "btn"%>
+				<% end %>
 			</div>
 		</div>
-	<% end %>
-	<div class="new-comment">
-		<%= form_for @comment do |f|%>
-			<%= f.text_area :body %>
-			<br>
-   			<%= f.hidden_field :post_id %>
-			<%= f.hidden_field :user_id %>
-			<%= f.submit "Post Comment", class: "btn"%>
-		<% end %>
 	</div>
 </div>
-<%if @user == current_user %>
-	<div class="post-edit-path">
-		<%= link_to "Edit", edit_post_path(@post) %>
-	</div>
-	<%= button_to "Delete Post", user_post_path(@user, @post), data: { confirm: "Are you sure?" }, method: :delete %>
-
-<% end %>

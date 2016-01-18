@@ -1,9 +1,16 @@
+<% if object.likes.count > 0 %>
+	<%
+		names = object.likes.collect {|like| like.user.name}
+		likers = names.join("<br>")
+	%>
+	<span class="likes-summary" data-html="true" data-toggle="tooltip" data-placement="left" title="<%= likers.to_s %>"><%= "#{ pluralize(object.likes.count, "Like")}" %></span>
+<% else %>
 	<%= "#{ pluralize(object.likes.count, "Like")}" %>
-
-	<% like = object.likes.find { |like| like.user == current_user }%>
-	<%if like %>	
-		<%= link_to "Unlike", like_path(like), method: :delete %>
-	<% else %>
-	<%= link_to "Like", {controller: "likes", action: "create", 
-		like: {user_id: current_user, likeable_id: object, likeable_type: object.class.to_s}}, method: :post %>
-	<% end %>
+<% end %>
+<% like = object.likes.find { |like| like.user == current_user }%>
+<%if like %>	
+	<%= link_to(raw(" <span class= 'glyphicon glyphicon-thumbs-down'></span> Unlike"), like_path(like), method: :delete )%>
+<% else %>
+<%= link_to(raw(" <span class= 'glyphicon glyphicon-thumbs-up'></span> Like"), {controller: "likes", action: "create", 
+	like: {user_id: current_user, likeable_id: object, likeable_type: object.class.to_s}}, method: :post)%>
+<% end %>

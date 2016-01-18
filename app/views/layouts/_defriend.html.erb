@@ -1,3 +1,3 @@
 <div class="defriend">
-	<%= button_to "Defriend", friendship_path(friendship), method: :delete, data: {confirm: "Defriend #{friend.name}?"} %>
+	<%= button_to "Defriend", friendship_path(friendship), class: "btn btn-danger",method: :delete, data: {confirm: "Defriend #{friend.name}?"} %>
 </div>

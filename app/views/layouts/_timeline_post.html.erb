@@ -1,21 +1,26 @@
-<div class="row timeline-post">
+<div class="row timeline-post panel panel-default">
 
-<h6><span class="profile-picture"><%= image_tag post.user.profile_picture.url(:thumb) %></span>
-
-<%= link_to(post.user.name.humanize, user_path(post.user)) %></h6>
-	<div class="post-body">
+<div class="col-sm-12 panel-heading">
+		<span class="profile-picture pull-left"><%= image_tag post.user.profile_picture.url(:thumb), class: "img-responsive thumbnail" %></span>
+		<h4 class=""><%= link_to(post.user.name.humanize, user_path(post.user)) %></h4>
+		<p class="text-muted"><%= time_ago_in_words(post.created_at) %> ago</p>
+</div>
+	<div class="post-body panel-body">
 		<%= post.body %>
 		<% if post.picture_file_name %>
-			<%= image_tag(post.picture.url(:thumb))%>
+			<%= image_tag(post.picture.url(:thumb), class: "img-responsive")%>
 		<% end %>
 
 	</div>
- 	<%= render 'layouts/likes', object: post %>
- 	<div class="comments-info">
-		<%= pluralize(post.comments.count, "Comment")%>
-		<%= link_to "Comment", user_post_path(post.user, post) %>
+	<div class="post-body panel-footer">
+
+	 	<%= render 'layouts/likes', object: post %>
+	 	<div class="comments-info">
+			<%= pluralize(post.comments.count, "Comment")%>
+			<%= link_to "Comment", user_post_path(post.user, post) %>
+		</div>
+		<p class="view-post">
+			<%= link_to "View Post", user_post_path(post.user, post) %>
+		</p>
 	</div>
-	<p class="view-post">
-		<%= link_to "View Post", user_post_path(post.user, post) %>
-	</p>
 </div>

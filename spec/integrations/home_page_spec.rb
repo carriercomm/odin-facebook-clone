@@ -7,7 +7,7 @@ describe 'Home Page' do
 			 visit root_path 
 		end		
 		it "loads the homepage" do
-			expect(page).to have_content("Facebook_Cl0ne")
+			expect(page).to have_content("Facebook")
 		end		
 		it "has the login and register links" do
 			expect(page).to have_link("Login", :href => login_path)
@@ -89,6 +89,13 @@ describe 'Home Page' do
 			likes_text = @post.likes.count == 1 ? "#{@post.likes.count} Like" : "#{@post.likes.count} Likes"
 			expect(page).to have_content(likes_text)
 			expect(page).to have_link("Like", likes_path)			
+		end
+
+		it "contains tooltip to show likes" do
+			likes_text = @post.likes.count == 1 ? "#{@post.likes.count} Like" : "#{@post.likes.count} Likes"
+			names = @post.likes.collect {|like| like.user.name}
+			likers = names.join("<br>")
+			expect(page).to have_selector("span[data-html='true'][data-toggle='tooltip'][data-placement='left'][title='#{likers.to_s}']")
 		end
 
 		it "contains number of comments and comment button to post show" do

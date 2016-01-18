@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :bio
   validates :name, presence: true
   has_attached_file :profile_picture, 
-                      styles: {:medium => "300x300#", :thumb => "75x75#"},
+                      styles: {:medium => "300x300#", :thumb => "55x55#", },
                       :default_url => 'http://facebook-clone-sample-app.s3.amazonaws.com/users/profile_pictures/000/000/001/:style/missing.gif'
   validates_attachment :profile_picture, content_type:  { content_type: /\Aimage\/.*\Z/ },
                                            size: { in: 0..1.megabytes }
